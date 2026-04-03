@@ -340,6 +340,68 @@ nav.scrolled .nav-logo { color: var(--dark); }
   margin-top: 5px;
 }
 
+/* ── About ───────────────────────────────────────────────────── */
+.about-section {
+  padding: 100px 0;
+  background: var(--light-bg);
+  border-top: 1px solid var(--peach-border);
+  border-bottom: 1px solid var(--peach-border);
+}
+
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-body {
+  font-size: 15px;
+  color: var(--mid);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.about-pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.pillar {
+  background: #fff;
+  border: 1.5px solid var(--peach-border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.pillar:hover {
+  border-color: var(--peach);
+  box-shadow: 0 6px 24px rgba(194,118,96,0.1);
+}
+
+.pillar-icon {
+  font-size: 22px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.pillar h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.pillar p {
+  font-size: 12px;
+  color: var(--mid);
+}
+
+@media (max-width: 768px) {
+  .about-inner { grid-template-columns: 1fr; gap: 40px; }
+}
+
 /* ── CTA Banner ──────────────────────────────────────────────── */
 .cta-section {
   background: linear-gradient(135deg, #C27660 0%, #A8604C 100%);
