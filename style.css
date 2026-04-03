@@ -589,10 +589,76 @@ footer .copy  { color: rgba(255,255,255,0.35); font-size: 12px; }
 }
 .back-link:hover { color: var(--dark); }
 
+/* ── Stage indicator ─────────────────────────────────────────── */
+.stage-bar {
+  background: #fff;
+  border-bottom: 1px solid var(--peach-border);
+  padding: 16px 40px 0;
+}
+
+.stages {
+  display: flex;
+  justify-content: space-between;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  padding-bottom: 14px;
+}
+
+.stages::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  height: 1px;
+  background: var(--peach-border);
+  z-index: 0;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.stage-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--peach-border);
+  border: 2px solid #fff;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.stage.active .stage-dot {
+  background: var(--peach);
+  box-shadow: 0 0 0 3px rgba(194,118,96,0.2);
+}
+
+.stage.done .stage-dot { background: var(--peach); }
+
+.stage span {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--peach-border);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.stage.active span { color: var(--peach); }
+.stage.done span   { color: var(--peach-dark); }
+
 /* ── Progress bar ────────────────────────────────────────────── */
 .progress-bar {
   height: 3px;
   background: var(--peach-border);
+  margin: 0 -40px;
 }
 .progress-fill {
   height: 100%;

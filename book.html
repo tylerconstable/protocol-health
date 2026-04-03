@@ -25,9 +25,18 @@
     </div>
   </nav>
 
-  <!-- Progress Bar -->
-  <div class="progress-bar">
-    <div class="progress-fill" id="progress" style="width: 12%"></div>
+  <!-- Stage Indicator -->
+  <div class="stage-bar">
+    <div class="stages">
+      <div class="stage active" id="stage-0"><div class="stage-dot"></div><span>Start</span></div>
+      <div class="stage" id="stage-1"><div class="stage-dot"></div><span>Goals</span></div>
+      <div class="stage" id="stage-2"><div class="stage-dot"></div><span>Symptoms</span></div>
+      <div class="stage" id="stage-3"><div class="stage-dot"></div><span>Health Profile</span></div>
+      <div class="stage" id="stage-4"><div class="stage-dot"></div><span>Booking</span></div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="stageFill" style="width:0%"></div>
+    </div>
   </div>
 
   <!-- Funnel -->
@@ -107,10 +116,18 @@
       return p.weightLoss || p.hormone || p.pain
     }
 
+    // step → stage index: 0=Start, 1=Goals, 2=Symptoms, 3=Health Profile, 4=Booking
+    const STAGE_MAP = [0, 1, 1, 2, 2, 3, 3, 4, 4]
+
     function setProgress(step) {
-      const total = 8
-      const pct = Math.round(((step + 1) / total) * 100)
-      document.getElementById('progress').style.width = pct + '%'
+      const current = STAGE_MAP[step] ?? 0
+      for (let i = 0; i < 5; i++) {
+        const el = document.getElementById('stage-' + i)
+        el.classList.remove('active', 'done')
+        if (i < current) el.classList.add('done')
+        if (i === current) el.classList.add('active')
+      }
+      document.getElementById('stageFill').style.width = (current / 4 * 100) + '%'
     }
 
     // ── Render helpers ─────────────────────────────────────────
