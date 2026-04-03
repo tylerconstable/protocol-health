@@ -337,8 +337,10 @@
     // ── Navigation ─────────────────────────────────────────────
     function render() {
       const darkness = (state.step / 8).toFixed(3)
-      document.getElementById('page-overlay').style.background = `rgba(28,20,16,${darkness})`
-      document.getElementById('funnel').innerHTML = steps[state.step]()
+      document.getElementById('page-overlay').style.background = `rgba(194,118,96,${darkness})`
+      document.getElementById('funnel').innerHTML =
+        `<p style="font-size:12px;font-weight:600;color:#C27660;text-align:right;margin-bottom:20px;letter-spacing:0.05em">${state.step + 1} / 9</p>` +
+        steps[state.step]()
       window.scrollTo(0, 0)
     }
 
