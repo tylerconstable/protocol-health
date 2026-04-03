@@ -25,14 +25,12 @@
     </div>
   </nav>
 
-  <!-- Pill progress bar -->
-  <div style="padding:20px 40px 0">
-    <div style="max-width:620px;margin:0 auto;display:flex;align-items:center;gap:14px">
-      <div style="flex:1;height:22px;border:2px solid #C27660;border-radius:999px;overflow:hidden;background:transparent">
-        <div id="pill-fill" style="height:100%;background:linear-gradient(to right,#E8B5A0 0%,transparent 0%);transition:background 0.9s cubic-bezier(0.4,0,0.2,1)"></div>
-      </div>
-      <span id="pill-count" style="font-size:12px;font-weight:700;color:#C27660;white-space:nowrap;min-width:36px;text-align:right">1 / 9</span>
-    </div>
+  <!-- Full-screen pill progress frame -->
+  <div style="position:fixed;inset:12px;z-index:0;pointer-events:none;border-radius:28px;overflow:hidden;border:2px solid #E8B5A0">
+    <div id="pill-fill" style="position:absolute;inset:0;background:linear-gradient(to right,#F5E0D6 0%,transparent 0%);transition:background 1s cubic-bezier(0.4,0,0.2,1)"></div>
+  </div>
+  <div style="position:fixed;bottom:24px;right:32px;z-index:2;font-size:12px;font-weight:700;color:#C27660;letter-spacing:0.05em">
+    <span id="pill-count">1 / 9</span>
   </div>
 
   <!-- Funnel -->
@@ -119,18 +117,18 @@
 
     // ── Render helpers ─────────────────────────────────────────
     function multiCards(items, stateKey) {
-      return items.map(item => {
+      return items.map((item, i) => {
         const active = state[stateKey].includes(item)
-        return `<button class="option-card${active ? ' active' : ''}"
+        return `<button class="option-card${active ? ' active' : ''}" style="animation-delay:${(i * 0.07).toFixed(2)}s"
           onclick="toggleMulti('${stateKey}', '${item.replace(/'/g, "\\'")}')">${item}</button>`
       }).join('')
     }
 
     function singleCards(items, stateKey, cols) {
       const cls = cols === 3 ? 'cols-3' : cols === 1 ? 'cols-1' : ''
-      const cards = items.map(item => {
+      const cards = items.map((item, i) => {
         const active = state[stateKey] === item
-        return `<button class="option-card${active ? ' active' : ''}"
+        return `<button class="option-card${active ? ' active' : ''}" style="animation-delay:${(i * 0.1).toFixed(2)}s"
           onclick="selectSingle('${stateKey}', '${item.replace(/'/g, "\\'")}')">${item}</button>`
       }).join('')
       return `<div class="card-grid ${cls}">${cards}</div>`

@@ -729,18 +729,26 @@ footer .copy  { color: rgba(255,255,255,0.35); font-size: 12px; }
   cursor: pointer;
   text-align: left;
   line-height: 1.4;
-  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  animation: floatCard 4s ease-in-out infinite;
 }
 .option-card:hover {
   border-color: var(--peach);
   background: var(--warm-white);
-  transform: translateY(-1px);
+  animation-play-state: paused;
+  box-shadow: 0 6px 20px rgba(194,118,96,0.15);
 }
 .option-card.active {
   border-color: var(--peach);
   background: var(--peach-light);
   color: var(--peach-dark);
   font-weight: 600;
+  animation-play-state: paused;
+}
+
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
 }
 
 /* ── Funnel nav buttons ──────────────────────────────────────── */
