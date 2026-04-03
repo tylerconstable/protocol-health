@@ -25,15 +25,8 @@
     </div>
   </nav>
 
-  <!-- Progress fill bar -->
-  <div style="height:8px;background:#EDD9D1;width:100%">
-    <div id="stageFill" style="height:8px;background:#C27660;width:0%;transition:width 0.4s ease"></div>
-  </div>
-
-  <!-- Stage labels -->
+  <!-- Stage bar + Funnel (all JS-rendered) -->
   <div id="stagebar"></div>
-
-  <!-- Funnel -->
   <div class="funnel-wrap">
     <div id="funnel"></div>
   </div>
@@ -117,12 +110,17 @@
     function renderStageBar() {
       const current = STAGE_MAP[state.step] ?? 0
       const pct = Math.round(state.step / 8 * 100)
-      document.getElementById('stageFill').style.width = pct + '%'
       const dots = STAGE_NAMES.map((name, i) => {
         const cls = i < current ? 'done' : i === current ? 'active' : ''
         return `<div class="stage ${cls}"><div class="stage-dot"></div><span>${name}</span></div>`
       }).join('')
-      document.getElementById('stagebar').innerHTML = `<div class="stage-bar"><div class="stages">${dots}</div></div>`
+      document.getElementById('stagebar').innerHTML = `
+        <div class="stage-bar">
+          <div class="progress-bar">
+            <div style="height:10px;width:${pct}%;background:#C27660"></div>
+          </div>
+          <div class="stages">${dots}</div>
+        </div>`
     }
 
     // ── Render helpers ─────────────────────────────────────────
