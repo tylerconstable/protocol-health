@@ -26,18 +26,7 @@
   </nav>
 
   <!-- Stage Indicator -->
-  <div class="stage-bar">
-    <div class="progress-bar">
-      <div class="progress-fill" id="stageFill"></div>
-    </div>
-    <div class="stages">
-      <div class="stage active" id="stage-0"><div class="stage-dot"></div><span>Start</span></div>
-      <div class="stage" id="stage-1"><div class="stage-dot"></div><span>Goals</span></div>
-      <div class="stage" id="stage-2"><div class="stage-dot"></div><span>Symptoms</span></div>
-      <div class="stage" id="stage-3"><div class="stage-dot"></div><span>Health Profile</span></div>
-      <div class="stage" id="stage-4"><div class="stage-dot"></div><span>Booking</span></div>
-    </div>
-  </div>
+  <div id="stagebar"></div>
 
   <!-- Funnel -->
   <div class="funnel-wrap">
@@ -118,18 +107,23 @@
 
     // step → stage index: 0=Start, 1=Goals, 2=Symptoms, 3=Health Profile, 4=Booking
     const STAGE_MAP = [0, 1, 1, 2, 2, 3, 3, 4, 4]
+    const STAGE_NAMES = ['Start', 'Goals', 'Symptoms', 'Health Profile', 'Booking']
 
-    function setProgress(step) {
-      const current = STAGE_MAP[step] ?? 0
-      for (let i = 0; i < 5; i++) {
-        const el = document.getElementById('stage-' + i)
-        if (!el) continue
-        el.classList.remove('active', 'done')
-        if (i < current) el.classList.add('done')
-        if (i === current) el.classList.add('active')
-      }
-      const fill = document.getElementById('stageFill')
-      if (fill) fill.style.transform = `scaleX(${state.step / 8})`
+    function renderStageBar() {
+      const current = STAGE_MAP[state.step] ?? 0
+      const pct = (state.step / 8 * 100).toFixed(1)
+      const dots = STAGE_NAMES.map((name, i) => {
+        const cls = i < current ? 'done' : i === current ? 'active' : ''
+        return `<div class="stage ${cls}"><div class="stage-dot"></div><span>${name}</span></div>`
+      }).join('')
+      document.getElementById('stagebar').innerHTML = `
+        <div class="stage-bar">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${pct}%"></div>
+          </div>
+          <div class="stages">${dots}</div>
+        </div>
+      `
     }
 
     // ── Render helpers ─────────────────────────────────────────
@@ -358,8 +352,8 @@
 
     // ── Navigation ─────────────────────────────────────────────
     function render() {
+      renderStageBar()
       document.getElementById('funnel').innerHTML = steps[state.step]()
-      setProgress(state.step)
       window.scrollTo(0, 0)
     }
 
