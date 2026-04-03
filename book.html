@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2" />
 </head>
 <body>
 
@@ -123,11 +123,13 @@
       const current = STAGE_MAP[step] ?? 0
       for (let i = 0; i < 5; i++) {
         const el = document.getElementById('stage-' + i)
+        if (!el) continue
         el.classList.remove('active', 'done')
         if (i < current) el.classList.add('done')
         if (i === current) el.classList.add('active')
       }
-      document.getElementById('stageFill').style.width = (state.step / 8 * 100) + '%'
+      const fill = document.getElementById('stageFill')
+      if (fill) fill.style.width = (state.step / 8 * 100) + '%'
     }
 
     // ── Render helpers ─────────────────────────────────────────
