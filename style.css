@@ -21,7 +21,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Montserrat', -apple-system, sans-serif;
-  background: blue;
+  background: var(--warm-white);
   color: var(--dark);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
