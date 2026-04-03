@@ -593,24 +593,43 @@ footer .copy  { color: rgba(255,255,255,0.35); font-size: 12px; }
 .stage-bar {
   background: #fff;
   border-bottom: 1px solid var(--peach-border);
-  padding: 16px 40px 0;
+}
+
+/* ── Progress bar ────────────────────────────────────────────── */
+.progress-bar {
+  height: 8px;
+  background: var(--peach-border);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #A8604C 0%, #C27660 40%, #E8967A 70%, #C27660 100%);
+  background-size: 250% 100%;
+  transition: width 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: bar-shimmer 2.8s linear infinite;
+  box-shadow: 0 0 14px rgba(194,118,96,0.55), 0 0 4px rgba(194,118,96,0.8);
+}
+
+@keyframes bar-shimmer {
+  from { background-position: 250% center; }
+  to   { background-position: -250% center; }
 }
 
 .stages {
   display: flex;
   justify-content: space-between;
-  max-width: 500px;
+  max-width: 520px;
   margin: 0 auto;
+  padding: 16px 0 20px;
   position: relative;
-  padding-bottom: 14px;
 }
 
 .stages::before {
   content: '';
   position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
+  top: 24px;
+  left: 12px;
+  right: 12px;
   height: 1px;
   background: var(--peach-border);
   z-index: 0;
@@ -620,51 +639,48 @@ footer .copy  { color: rgba(255,255,255,0.35); font-size: 12px; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   position: relative;
   z-index: 1;
 }
 
 .stage-dot {
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   border-radius: 999px;
-  background: var(--peach-border);
-  border: 2px solid #fff;
-  transition: background 0.2s, box-shadow 0.2s;
+  background: #fff;
+  border: 2.5px solid var(--peach-border);
+  transition: all 0.3s ease;
+}
+
+.stage.done .stage-dot {
+  background: var(--peach);
+  border-color: var(--peach);
 }
 
 .stage.active .stage-dot {
   background: var(--peach);
-  box-shadow: 0 0 0 3px rgba(194,118,96,0.2);
+  border-color: var(--peach);
+  animation: pulse-dot 1.8s ease-in-out infinite;
 }
 
-.stage.done .stage-dot { background: var(--peach); }
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(194,118,96,0.25); }
+  50%       { box-shadow: 0 0 0 9px rgba(194,118,96,0.08); }
+}
 
 .stage span {
   font-size: 10px;
   font-weight: 600;
-  color: var(--peach-border);
+  color: #ccc0b8;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: nowrap;
   transition: color 0.2s;
 }
 
-.stage.active span { color: var(--peach); }
+.stage.active span { color: var(--peach); font-weight: 700; }
 .stage.done span   { color: var(--peach-dark); }
-
-/* ── Progress bar ────────────────────────────────────────────── */
-.progress-bar {
-  height: 3px;
-  background: var(--peach-border);
-  margin: 0 -40px;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--peach);
-  transition: width 0.35s ease;
-}
 
 /* ── Funnel wrapper ──────────────────────────────────────────── */
 .funnel-wrap {
