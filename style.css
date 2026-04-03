@@ -568,6 +568,8 @@ footer .copy  { color: rgba(255,255,255,0.35); font-size: 12px; }
 
 /* ── Book page nav ───────────────────────────────────────────── */
 .book-nav {
+  position: relative;
+  z-index: 1;
   background: rgba(255,250,248,0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--peach-border);
@@ -679,6 +681,8 @@ footer .copy  { color: rgba(255,255,255,0.35); font-size: 12px; }
   max-width: 620px;
   margin: 0 auto;
   padding: 52px 24px 100px;
+  position: relative;
+  z-index: 1;
 }
 
 .step-eyebrow {
