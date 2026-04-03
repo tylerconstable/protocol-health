@@ -730,7 +730,7 @@ footer .copy  { color: rgba(255,255,255,0.35); font-size: 12px; }
   text-align: left;
   line-height: 1.4;
   transition: border-color 0.15s, background 0.15s;
-  animation: floatCard 3.5s ease-in-out infinite;
+  animation: slideUp 0.4s ease both;
   box-shadow: 0 6px 0 #EDD9D1, 0 8px 20px rgba(194,118,96,0.12);
 }
 .option-card:hover {
@@ -754,14 +754,14 @@ footer .copy  { color: rgba(255,255,255,0.35); font-size: 12px; }
   box-shadow: 0 6px 0 #C27660, 0 10px 24px rgba(194,118,96,0.2);
 }
 
-@keyframes floatCard {
-  0%, 100% {
-    transform: translateY(0px);
-    box-shadow: 0 6px 0 #EDD9D1, 0 8px 20px rgba(194,118,96,0.12);
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
   }
-  50% {
-    transform: translateY(-8px);
-    box-shadow: 0 14px 0 #EDD9D1, 0 18px 30px rgba(194,118,96,0.18);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
