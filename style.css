@@ -683,7 +683,6 @@ footer .copy  { color: rgba(255,255,255,0.35); font-size: 12px; }
   padding: 52px 24px 100px;
   position: relative;
   z-index: 1;
-  background: var(--warm-white);
 }
 
 .step-eyebrow {
