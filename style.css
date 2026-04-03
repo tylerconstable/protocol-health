@@ -58,6 +58,24 @@ nav.scrolled {
 }
 nav.scrolled .nav-logo { color: var(--dark); }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: #fff; }
+nav.scrolled .nav-link { color: var(--mid); }
+nav.scrolled .nav-link:hover { color: var(--dark); }
+
 .btn-primary {
   background: var(--peach);
   color: #fff;
@@ -400,6 +418,67 @@ nav.scrolled .nav-logo { color: var(--dark); }
 
 @media (max-width: 768px) {
   .about-inner { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ── Team ────────────────────────────────────────────────────── */
+.team-section {
+  padding: 100px 0;
+  background: var(--warm-white);
+}
+
+.doctor-card {
+  display: flex;
+  gap: 52px;
+  align-items: flex-start;
+  background: #fff;
+  border: 1.5px solid var(--peach-border);
+  border-radius: 24px;
+  padding: 48px;
+  margin-top: 48px;
+}
+
+.doctor-avatar {
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 999px;
+  background: var(--peach-light);
+  border: 2px solid var(--peach-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--peach);
+  letter-spacing: -0.02em;
+}
+
+.doctor-info h3 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.doctor-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--peach);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+}
+
+.doctor-bio {
+  font-size: 14px;
+  color: var(--mid);
+  line-height: 1.8;
+  margin-bottom: 12px;
+  max-width: 640px;
+}
+
+@media (max-width: 640px) {
+  .doctor-card { flex-direction: column; gap: 24px; padding: 28px; }
 }
 
 /* ── CTA Banner ──────────────────────────────────────────────── */
