@@ -25,8 +25,7 @@
     </div>
   </nav>
 
-  <!-- Stage bar + Funnel (all JS-rendered) -->
-  <div id="stagebar"></div>
+  <!-- Funnel -->
   <div class="funnel-wrap">
     <div id="funnel"></div>
   </div>
@@ -107,21 +106,6 @@
     const STAGE_MAP = [0, 1, 1, 2, 2, 3, 3, 4, 4]
     const STAGE_NAMES = ['Start', 'Goals', 'Symptoms', 'Health Profile', 'Booking']
 
-    function renderStageBar() {
-      const current = STAGE_MAP[state.step] ?? 0
-      const pct = Math.round(state.step / 8 * 100)
-      const dots = STAGE_NAMES.map((name, i) => {
-        const cls = i < current ? 'done' : i === current ? 'active' : ''
-        return `<div class="stage ${cls}"><div class="stage-dot"></div><span>${name}</span></div>`
-      }).join('')
-      document.getElementById('stagebar').innerHTML = `
-        <div class="stage-bar">
-          <div class="progress-bar">
-            <div style="height:10px;width:${pct}%;background:#C27660"></div>
-          </div>
-          <div class="stages">${dots}</div>
-        </div>`
-    }
 
     // ── Render helpers ─────────────────────────────────────────
     function multiCards(items, stateKey) {
@@ -349,8 +333,15 @@
 
     // ── Navigation ─────────────────────────────────────────────
     function render() {
-      renderStageBar()
-      document.getElementById('funnel').innerHTML = steps[state.step]()
+      const pct = Math.round(state.step / 8 * 100)
+      document.getElementById('funnel').innerHTML =
+        steps[state.step]() +
+        `<div style="margin-top:32px;height:4px;background:#EDD9D1;border-radius:2px">
+          <div style="height:4px;width:${pct}%;background:#C27660;border-radius:2px"></div>
+        </div>
+        <p style="font-size:11px;color:#7A6A63;text-align:center;margin-top:8px;letter-spacing:0.05em">
+          Step ${state.step + 1} of 9
+        </p>`
       window.scrollTo(0, 0)
     }
 
