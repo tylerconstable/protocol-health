@@ -75,6 +75,27 @@ nav.scrolled .nav-logo { color: var(--dark); }
 .nav-link:hover { color: #fff; }
 nav.scrolled .nav-link { color: var(--mid); }
 nav.scrolled .nav-link:hover { color: var(--dark); }
+nav.scrolled .nav-link-active { color: var(--peach); }
+
+/* ── Inner page header ───────────────────────────────────────── */
+.page-header {
+  padding: 120px 0 60px;
+  background: var(--light-bg);
+  border-bottom: 1px solid var(--peach-border);
+}
+
+.page-heading {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.page-sub {
+  font-size: 15px;
+  color: var(--mid);
+  max-width: 480px;
+}
 
 .btn-primary {
   background: var(--peach);
