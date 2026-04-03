@@ -337,13 +337,29 @@ nav.scrolled .nav-link-active { color: var(--peach); }
   border: 1.5px solid var(--peach-border);
   border-radius: 20px;
   padding: 28px;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  box-shadow: 0 6px 0 #EDD9D1, 0 8px 24px rgba(194,118,96,0.1);
+  transition: border-color 0.2s, box-shadow 0.25s, transform 0.25s;
+  animation: slideUp 0.5s ease both;
 }
 .service-card:hover {
   border-color: var(--peach);
-  box-shadow: 0 8px 32px rgba(194,118,96,0.12);
-  transform: translateY(-2px);
+  box-shadow: 0 10px 0 #E0C4BA, 0 16px 36px rgba(194,118,96,0.18);
+  transform: translateY(-6px);
 }
+.service-card:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 #EDD9D1, 0 4px 12px rgba(194,118,96,0.08);
+}
+
+.service-card:nth-child(1) { animation-delay: 0.05s }
+.service-card:nth-child(2) { animation-delay: 0.10s }
+.service-card:nth-child(3) { animation-delay: 0.15s }
+.service-card:nth-child(4) { animation-delay: 0.20s }
+.service-card:nth-child(5) { animation-delay: 0.25s }
+.service-card:nth-child(6) { animation-delay: 0.30s }
+.service-card:nth-child(7) { animation-delay: 0.35s }
+.service-card:nth-child(8) { animation-delay: 0.40s }
+.service-card:nth-child(9) { animation-delay: 0.45s }
 
 .service-card h3 {
   font-size: 15px;
