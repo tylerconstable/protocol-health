@@ -25,6 +25,9 @@
     </div>
   </nav>
 
+  <!-- Full-page darkness overlay -->
+  <div id="page-overlay" style="position:fixed;inset:0;z-index:-1;pointer-events:none;background:rgba(28,20,16,0);transition:background 0.8s ease"></div>
+
   <!-- Funnel -->
   <div class="funnel-wrap">
     <div id="funnel"></div>
@@ -333,15 +336,9 @@
 
     // ── Navigation ─────────────────────────────────────────────
     function render() {
-      const pct = Math.round(state.step / 8 * 100)
-      document.getElementById('funnel').innerHTML =
-        steps[state.step]() +
-        `<div style="margin-top:32px;height:4px;background:#EDD9D1;border-radius:2px">
-          <div style="height:4px;width:${pct}%;background:#C27660;border-radius:2px"></div>
-        </div>
-        <p style="font-size:11px;color:#7A6A63;text-align:center;margin-top:8px;letter-spacing:0.05em">
-          Step ${state.step + 1} of 9
-        </p>`
+      const darkness = (state.step / 8 * 0.72).toFixed(3)
+      document.getElementById('page-overlay').style.background = `rgba(28,20,16,${darkness})`
+      document.getElementById('funnel').innerHTML = steps[state.step]()
       window.scrollTo(0, 0)
     }
 
