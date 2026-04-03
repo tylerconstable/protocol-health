@@ -394,11 +394,18 @@ nav.scrolled .nav-link-active { color: var(--peach); }
   align-items: center;
 }
 
+.about-slim { padding: 80px 0; }
+
 .about-body {
   font-size: 15px;
   color: var(--mid);
   line-height: 1.8;
   margin-bottom: 16px;
+}
+
+.about-body-wide {
+  max-width: 680px;
+  font-size: 16px;
 }
 
 .about-pillars {
