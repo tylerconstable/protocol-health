@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Start Your Assessment — Protocol Health</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="book-nav">
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Protocol Health
+    </a>
+  </nav>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress" style="width: 12%"></div>
+  </div>
+
+  <!-- Funnel -->
+  <div class="funnel-wrap">
+    <div id="funnel"></div>
+  </div>
+
+  <script>
+    // ── State ──────────────────────────────────────────────────
+    const state = {
+      step: 0,
+      goals: [],
+      improvements: [],
+      symptoms: [],
+      ageRange: '',
+      sex: '',
+      weightLossInterest: '',
+      weightToLose: '',
+      hormonesTested: '',
+      onHormoneTherapy: '',
+      hasInjury: '',
+      injuryType: '',
+      heightFt: '',
+      heightIn: '',
+      weight: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      city: '',
+      stateField: '',
+      zip: '',
+      dob: '',
+    }
+
+    // ── Data ───────────────────────────────────────────────────
+    const GOALS = [
+      'Weight loss', 'Hormone optimization', 'Improve energy',
+      'Improve libido / sexual health', 'Longevity & healthy aging',
+      'Pain or injury recovery', 'Athletic performance', 'Hair restoration',
+      'General health optimization', 'Not sure — I want expert guidance',
+    ]
+
+    const IMPROVEMENTS = [
+      'Lose weight', 'Increase energy', 'Improve focus', 'Balance hormones',
+      'Improve libido', 'Build muscle / performance', 'Recover from injury',
+      'Reduce pain', 'Support longevity', 'Improve confidence',
+      'Improve hair health', 'Optimize overall wellness',
+    ]
+
+    const SYMPTOMS = [
+      'Weight gain', 'Fatigue', 'Brain fog', 'Low libido', 'Poor sleep',
+      'Mood changes', 'Hair thinning', 'Joint pain', 'Muscle pain',
+      'Slow recovery', 'Reduced endurance', 'Low motivation',
+      'Difficulty concentrating', 'None',
+    ]
+
+    const AGE_RANGES = ['18–29', '30–39', '40–49', '50–59', '60+']
+
+    // ── Helpers ────────────────────────────────────────────────
+    function getPaths() {
+      const all = [...state.goals, ...state.improvements, ...state.symptoms]
+        .map(s => s.toLowerCase())
+      return {
+        weightLoss: all.some(s => s.includes('weight')),
+        hormone: all.some(s =>
+          s.includes('hormone') || s.includes('libido') ||
+          s.includes('fatigue') || s.includes('energy')),
+        pain: all.some(s =>
+          s.includes('pain') || s.includes('injury') ||
+          s.includes('recovery') || s.includes('performance')),
+      }
+    }
+
+    function hasConditional() {
+      const p = getPaths()
+      return p.weightLoss || p.hormone || p.pain
+    }
+
+    function setProgress(step) {
+      const total = 8
+      const pct = Math.round(((step + 1) / total) * 100)
+      document.getElementById('progress').style.width = pct + '%'
+    }
+
+    // ── Render helpers ─────────────────────────────────────────
+    function multiCards(items, stateKey) {
+      return items.map(item => {
+        const active = state[stateKey].includes(item)
+        return `<button class="option-card${active ? ' active' : ''}"
+          onclick="toggleMulti('${stateKey}', '${item.replace(/'/g, "\\'")}')">${item}</button>`
+      }).join('')
+    }
+
+    function singleCards(items, stateKey, cols) {
+      const cls = cols === 3 ? 'cols-3' : cols === 1 ? 'cols-1' : ''
+      const cards = items.map(item => {
+        const active = state[stateKey] === item
+        return `<button class="option-card${active ? ' active' : ''}"
+          onclick="selectSingle('${stateKey}', '${item.replace(/'/g, "\\'")}')">${item}</button>`
+      }).join('')
+      return `<div class="card-grid ${cls}">${cards}</div>`
+    }
+
+    function header(stage, headline, sub) {
+      return `
+        ${stage ? `<p class="step-eyebrow">${stage}</p>` : ''}
+        <h1 class="step-headline">${headline}</h1>
+        ${sub ? `<p class="step-sub">${sub}</p>` : ''}
+      `
+    }
+
+    function navButtons(onBack, nextLabel, nextDisabled) {
+      const backBtn = onBack
+        ? `<button class="btn-back" onclick="${onBack}">Back</button>` : ''
+      return `
+        <div class="funnel-nav">
+          ${backBtn}
+          <button class="btn-next" onclick="nextStep()" ${nextDisabled ? 'disabled id="nextBtn"' : ''}>
+            ${nextLabel || 'Continue'}
+          </button>
+        </div>
+      `
+    }
+
+    // ── Steps ──────────────────────────────────────────────────
+    const steps = {
+
+      0: () => `
+        ${header('Goals', 'What brings you to Protocol Health today?', 'Select all that apply.')}
+        <div class="card-grid">${multiCards(GOALS, 'goals')}</div>
+        ${navButtons(null, 'Continue', state.goals.length === 0)}
+      `,
+
+      1: () => `
+        ${header('Goals', 'What are you hoping to improve right now?', 'Select all that apply.')}
+        <div class="card-grid">${multiCards(IMPROVEMENTS, 'improvements')}</div>
+        ${navButtons('goBack()', 'Continue', state.improvements.length === 0)}
+      `,
+
+      2: () => `
+        ${header('Symptoms', 'Which symptoms are you experiencing?', 'Select all that apply.')}
+        <div class="card-grid">${multiCards(SYMPTOMS, 'symptoms')}</div>
+        ${navButtons('goBack()', 'Continue', state.symptoms.length === 0)}
+      `,
+
+      3: () => `
+        ${header('Health Profile', 'A bit more about you.')}
+        <div style="margin-bottom: 32px">
+          <span class="field-label">What is your age range?</span>
+          ${singleCards(AGE_RANGES, 'ageRange', 3)}
+        </div>
+        <div>
+          <span class="field-label">Sex assigned at birth</span>
+          <p class="field-hint">This helps us recommend appropriate treatment pathways.</p>
+          ${singleCards(['Male', 'Female'], 'sex', 2)}
+        </div>
+        ${navButtons('goBack()', 'Continue', !state.ageRange || !state.sex)}
+      `,
+
+      4: () => {
+        const paths = getPaths()
+        let html = header('Health Profile', 'A few more questions.', 'Based on your goals, these help us personalize your assessment.')
+
+        if (paths.weightLoss) {
+          html += `<div class="conditional-section">
+            <span class="field-label">Are you interested in medical weight loss treatment?</span>
+            ${singleCards(['Yes', 'No', 'Maybe'], 'weightLossInterest', 3)}
+            ${(state.weightLossInterest === 'Yes' || state.weightLossInterest === 'Maybe') ? `
+              <div style="margin-top: 20px">
+                <span class="field-label">How much weight would you ideally like to lose?</span>
+                ${singleCards(['10–20 lbs', '20–40 lbs', '40–60 lbs', '60+ lbs', 'Not sure'], 'weightToLose', 3)}
+              </div>` : ''}
+          </div>`
+        }
+
+        if (paths.hormone) {
+          html += `<div class="conditional-section">
+            <span class="field-label">Have you had hormone levels tested before?</span>
+            ${singleCards(['Yes', 'No', 'Not sure'], 'hormonesTested', 3)}
+            <div style="margin-top: 20px">
+              <span class="field-label">Are you currently on hormone therapy?</span>
+              ${singleCards(['Yes', 'No', 'Not sure'], 'onHormoneTherapy', 3)}
+            </div>
+          </div>`
+        }
+
+        if (paths.pain) {
+          html += `<div class="conditional-section">
+            <span class="field-label">Are you currently dealing with pain or injury?</span>
+            ${singleCards(['Yes', 'No'], 'hasInjury', 2)}
+            ${state.hasInjury === 'Yes' ? `
+              <div style="margin-top: 20px">
+                <span class="field-label">What best describes it?</span>
+                ${singleCards(['Joint pain', 'Muscle strain', 'Back pain', 'Sports injury', 'Chronic inflammation', 'Slow recovery'], 'injuryType', 2)}
+              </div>` : ''}
+          </div>`
+        }
+
+        html += navButtons('goBack()', 'Continue')
+        return html
+      },
+
+      5: () => `
+        ${header('Health Profile', 'What is your height and weight?', 'This helps us better understand your health profile.')}
+        <div class="field-group">
+          <span class="field-label">Height</span>
+          <div class="input-row">
+            <input type="number" placeholder="Feet" value="${state.heightFt}"
+              oninput="state.heightFt=this.value;checkNext5()" />
+            <input type="number" placeholder="Inches" value="${state.heightIn}"
+              oninput="state.heightIn=this.value" />
+          </div>
+        </div>
+        <div class="field-group">
+          <span class="field-label">Current weight (lbs)</span>
+          <input type="number" placeholder="e.g. 175" value="${state.weight}"
+            oninput="state.weight=this.value;checkNext5()" />
+        </div>
+        ${navButtons('goBack()', 'Continue', !state.heightFt || !state.weight)}
+      `,
+
+      6: () => `
+        ${header('Almost done', 'How can we reach you?', 'Your information is kept private and used only to coordinate your care.')}
+        <div class="field-group">
+          <div class="input-row">
+            <input type="text" placeholder="First name" value="${state.firstName}"
+              oninput="state.firstName=this.value;checkNext6()" />
+            <input type="text" placeholder="Last name" value="${state.lastName}"
+              oninput="state.lastName=this.value;checkNext6()" />
+          </div>
+        </div>
+        <div class="field-group">
+          <input type="email" placeholder="Email" value="${state.email}"
+            oninput="state.email=this.value;checkNext6()" />
+        </div>
+        <div class="field-group">
+          <input type="tel" placeholder="Phone" value="${state.phone}"
+            oninput="state.phone=this.value;checkNext6()" />
+        </div>
+        <div class="field-group">
+          <div class="input-row">
+            <input type="text" placeholder="City" value="${state.city}"
+              oninput="state.city=this.value" />
+            <input type="text" placeholder="State" value="${state.stateField}"
+              oninput="state.stateField=this.value" />
+          </div>
+        </div>
+        <div class="field-group">
+          <input type="text" placeholder="ZIP code" value="${state.zip}"
+            oninput="state.zip=this.value" />
+        </div>
+        <div class="field-group">
+          <span class="field-label" style="font-weight:400;color:var(--slate-400)">Date of birth</span>
+          <input type="date" value="${state.dob}"
+            oninput="state.dob=this.value" />
+        </div>
+        ${navButtons('goBack()', 'Continue', !state.firstName || !state.lastName || !state.email || !state.phone)}
+      `,
+
+      7: () => {
+        const paths = getPaths()
+        const recs = [
+          ...(paths.weightLoss ? ['Medical weight loss'] : []),
+          ...(paths.hormone ? ['Hormone optimization'] : []),
+          ...(paths.pain ? ['Recovery & performance support'] : []),
+          'Peptide therapy',
+          'Longevity optimization',
+        ]
+        return `
+          <div class="step-centered">
+            <div class="check-circle">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <h1 class="step-headline">You may be a great fit for Protocol Health</h1>
+            <p class="step-sub">Based on your responses, patients like you often benefit from:</p>
+            <ul class="recs-list">
+              ${recs.map(r => `<li>${r}</li>`).join('')}
+            </ul>
+            <p style="font-size:12px;color:var(--slate-400);margin-bottom:8px">
+              Our clinicians will review your goals and design a personalized plan.
+            </p>
+            ${navButtons('goBack()', 'Submit My Assessment')}
+          </div>
+        `
+      },
+
+      8: () => `
+        <div class="step-centered">
+          <div class="check-circle">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <h1 class="step-headline">
+            ${state.firstName ? `You're all set, ${state.firstName}!` : "You're all set!"}
+          </h1>
+          <p style="font-size:14px;color:var(--slate-500);max-width:380px;margin:0 auto 36px;line-height:1.6">
+            Thank you for completing your health assessment. A member of our clinical team will reach out shortly to schedule your Protocol Optimization Assessment.
+          </p>
+          <a href="index.html" class="btn-primary" style="font-size:15px;padding:13px 28px">
+            Back to Protocol Health
+          </a>
+        </div>
+      `,
+    }
+
+    // ── Navigation ─────────────────────────────────────────────
+    function render() {
+      document.getElementById('funnel').innerHTML = steps[state.step]()
+      setProgress(state.step)
+      window.scrollTo(0, 0)
+    }
+
+    function nextStep() {
+      if (state.step === 3 && !hasConditional()) {
+        state.step = 5
+      } else {
+        state.step++
+      }
+      render()
+    }
+
+    function goBack() {
+      if (state.step === 5 && !hasConditional()) {
+        state.step = 3
+      } else {
+        state.step--
+      }
+      render()
+    }
+
+    function toggleMulti(key, value) {
+      const idx = state[key].indexOf(value)
+      if (idx === -1) state[key].push(value)
+      else state[key].splice(idx, 1)
+      render()
+    }
+
+    function selectSingle(key, value) {
+      state[key] = value
+      render()
+    }
+
+    // Re-check disabled state for input-driven steps
+    function checkNext5() {
+      const btn = document.getElementById('nextBtn')
+      if (btn) btn.disabled = !state.heightFt || !state.weight
+    }
+    function checkNext6() {
+      const btn = document.getElementById('nextBtn')
+      if (btn) btn.disabled = !state.firstName || !state.lastName || !state.email || !state.phone
+    }
+
+    // ── Init ───────────────────────────────────────────────────
+    render()
+  </script>
+
+</body>
+</html>
