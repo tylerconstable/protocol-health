@@ -26,7 +26,7 @@
   </nav>
 
   <!-- Full-page fill overlay -->
-  <div id="page-overlay" style="position:fixed;bottom:0;left:0;right:0;height:0%;z-index:-1;pointer-events:none;background:#A8604C;transition:height 0.6s cubic-bezier(0.4,0,0.2,1)"></div>
+  <div id="page-overlay" style="position:fixed;top:0;left:0;bottom:0;width:0%;z-index:-1;pointer-events:none;background:#E8B5A0;transition:width 0.6s cubic-bezier(0.4,0,0.2,1)"></div>
 
   <!-- Funnel -->
   <div class="funnel-wrap">
@@ -336,7 +336,7 @@
 
     // ── Navigation ─────────────────────────────────────────────
     function render() {
-      document.getElementById('page-overlay').style.height = Math.round(state.step / 8 * 100) + '%'
+      document.getElementById('page-overlay').style.width = Math.round(state.step / 8 * 100) + '%'
       document.getElementById('funnel').innerHTML =
         `<p style="font-size:12px;font-weight:600;color:#C27660;text-align:right;margin-bottom:20px;letter-spacing:0.05em">${state.step + 1} / 9</p>` +
         steps[state.step]()
