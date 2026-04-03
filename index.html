@@ -4,12 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Protocol Health</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <!-- Nav -->
-  <nav>
+  <nav id="nav">
     <a href="index.html" class="nav-logo">Protocol Health</a>
     <a href="book.html" class="btn-primary">Start Assessment</a>
   </nav>
@@ -18,7 +21,7 @@
   <section class="hero">
     <div class="hero-inner">
       <p class="eyebrow">Physician-Led Clinic</p>
-      <h1>Advanced Health Optimization</h1>
+      <h1>Advanced Health<br><span>Optimization</span></h1>
       <p>Personalized protocols for longevity, hormone health, weight loss, and performance — designed by clinicians, built around you.</p>
       <div class="hero-actions">
         <a href="book.html" class="btn-primary">Start Your Assessment</a>
@@ -28,8 +31,9 @@
   </section>
 
   <!-- Services -->
-  <section id="services">
-    <div class="services">
+  <section id="services" class="services-section">
+    <div class="section-wrap">
+      <p class="section-label">What We Offer</p>
       <h2 class="section-heading">Our Services</h2>
       <p class="section-sub">Comprehensive care across longevity, performance, and metabolic health.</p>
       <div class="services-grid">
@@ -145,7 +149,7 @@
   </section>
 
   <!-- CTA Banner -->
-  <section class="cta-banner">
+  <section class="cta-section">
     <h2>Ready to optimize your health?</h2>
     <p>Answer a few quick questions and our clinical team will recommend the right next step for you.</p>
     <a href="book.html" class="btn-white">Start Your Free Assessment</a>
@@ -156,6 +160,13 @@
     <span class="logo">Protocol Health</span>
     <span class="copy">© 2025 Protocol Health. All rights reserved.</span>
   </footer>
+
+  <script>
+    const nav = document.getElementById('nav')
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60)
+    })
+  </script>
 
 </body>
 </html>
