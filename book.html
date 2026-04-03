@@ -28,7 +28,7 @@
   <!-- Stage Indicator -->
   <div class="stage-bar">
     <div class="progress-bar">
-      <div class="progress-fill" id="stageFill" style="width:0%"></div>
+      <div class="progress-fill" id="stageFill"></div>
     </div>
     <div class="stages">
       <div class="stage active" id="stage-0"><div class="stage-dot"></div><span>Start</span></div>
@@ -129,7 +129,7 @@
         if (i === current) el.classList.add('active')
       }
       const fill = document.getElementById('stageFill')
-      if (fill) fill.style.width = (state.step / 8 * 100) + '%'
+      if (fill) fill.style.transform = `scaleX(${state.step / 8})`
     }
 
     // ── Render helpers ─────────────────────────────────────────
