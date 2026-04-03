@@ -348,7 +348,19 @@
       window.scrollTo(0, 0)
     }
 
+    function launchConfetti() {
+      const colors = ['#C27660','#E8B5A0','#F5E0D6','#A8604C','#EDD9D1','#fff']
+      for (let i = 0; i < 80; i++) {
+        const el = document.createElement('div')
+        const size = Math.random() * 9 + 4
+        el.style.cssText = `position:fixed;width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>0.4?'50%':'3px'};top:${Math.random()*40+20}%;left:${Math.random()*100}%;z-index:9999;pointer-events:none;animation:confettiFall ${Math.random()*1.2+0.8}s ease-out forwards;animation-delay:${Math.random()*0.4}s`
+        document.body.appendChild(el)
+        el.addEventListener('animationend', () => el.remove())
+      }
+    }
+
     function nextStep() {
+      if (state.step === 7) launchConfetti()
       if (state.step === 3 && !hasConditional()) {
         state.step = 5
       } else {
